@@ -21,6 +21,15 @@ is_port_in_use() {
     fi
 }
 
+# Function to check if ufw is enabled
+is_ufw_enabled() {
+    if ufw status | grep -q "Status: active"; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # Function to install
 install() {
     wget --no-check-certificate https://raw.github.com/Lozy/danted/master/install.sh -O install.sh
@@ -39,6 +48,12 @@ install() {
 
     # Execute the install script with generated values
     bash install.sh --port=$port --user=$user --passwd=$passwd
+
+    # Check if ufw is enabled and allow the port if it is
+    if is_ufw_enabled; then
+        ufw allow $port
+        echo "ufw 已允许端口: $port"
+    fi
 }
 
 # Function to view logs
