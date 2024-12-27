@@ -139,6 +139,9 @@ else
     uswap=$(swapinfo -k | awk 'NR>1{sum+=$4} END{printf "%.0f", sum/1024}')
 fi
 
+BenchAPI_Systeminfo_GetMemoryinfo
+BenchAPI_Systeminfo_GetDiskinfo
+
 echo " CPU 型号          : $(_blue "$cname")"
 echo " CPU 核心数        : $(_blue "$cores")"
 echo " 内存              : $(_blue "$Result_Systeminfo_Memoryinfo")"
