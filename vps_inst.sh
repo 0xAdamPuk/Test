@@ -55,7 +55,7 @@ function check_port() {
     fi
 }
 
-function generatate_port() {
+function generate_port() {
     local port
     while true; do
         port=$(generate_random_port)
