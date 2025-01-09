@@ -38,6 +38,28 @@ function add_swap() {
     anykey
 }
 
+function check_nettools() {
+    # 检查 netstat 是否安装
+    if ! command -v netstat &> /dev/null
+    then
+        echo "netstat 未安装。正在安装 net-tools..."
+        # 根据操作系统的包管理器进行安装
+        if [ -f /etc/debian_version ]; then
+            sudo apt-get install -y net-tools
+        elif [ -f /etc/redhat-release ]; then
+            sudo yum install -y net-tools
+        elif [ -f /etc/arch-release ]; then
+            sudo pacman -Syu net-tools
+        else
+            echo "不支持的操作系统。请手动安装 net-tools。"
+            exit 1
+        fi
+        echo "netstat 安装完成。"
+    else
+        echo "netstat 已经安装。"
+    fi
+}
+
 # 生成一个随机端口号
 function generate_random_port() {
     # 生成一个介于1024到65535之间的随机端口号
@@ -69,6 +91,7 @@ function generate_port() {
 }
 
 function change_ssh_port() {
+    check_nettools
     local port
     port = $(generate_port)
     sudo sed -i 's/^#\?Port 22.*/Port $port/g' /etc/ssh/sshd_config
