@@ -83,7 +83,7 @@ function generate_port() {
         port=$(generate_random_port)
         check_port $port
         if [ $? -eq 0 ]; then
-            echo "随机生成的可用端口号是: $port"
+            # echo "随机生成的可用端口号是: $port"
             break
         fi
     done
