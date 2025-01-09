@@ -87,7 +87,7 @@ function generate_port() {
             break
         fi
     done
-    echo $(port)
+    echo $port
 }
 
 function change_ssh_port() {
