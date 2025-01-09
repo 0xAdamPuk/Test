@@ -94,7 +94,7 @@ function change_ssh_port() {
     check_nettools
     local port
     port = $(generate_port)
-    sudo sed -i 's/^#\?Port 22.*/Port $port/g' /etc/ssh/sshd_config
+    sudo sed -i "s/^#\?Port 22.*/Port $port/g" /etc/ssh/sshd_config
     echo "执行sudo systemctl restart sshd重启sshd服务"
     anykey
 }
