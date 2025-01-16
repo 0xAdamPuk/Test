@@ -139,6 +139,26 @@ else
     uswap=$(swapinfo -k | awk 'NR>1{sum+=$4} END{printf "%.0f", sum/1024}')
 fi
 
+check_and_cat_file() {
+    local file="$1"
+    # 检测文件是否存在
+    if [[ -f "$file" ]]; then
+        # 判断文件内容是否为空或只包含空行
+        if [[ -s "$file" ]] && [[ "$(grep -vE '^\s*$' "$file")" ]]; then
+            :
+        else
+            truncate -s 0 "$file"
+        fi
+    else
+        truncate -s 0 "$file"
+    fi
+    # 检测文件内容是否包含"error"，如果包含则不打印文件内容
+    if grep -q "error" "$file"; then
+        return
+    fi
+    cat "$file"
+}
+
 is_private_ipv4() {
     local ip_address=$1
     local ip_parts
@@ -250,10 +270,14 @@ check_ipv6() {
 BenchAPI_Systeminfo_GetMemoryinfo
 BenchAPI_Systeminfo_GetDiskinfo
 
+check_ipv4
+check_ipv6
+IPV4=$(check_and_cat_file /tmp/ip_quality_ipv4)
+IPV6=$(check_and_cat_file /tmp/ip_quality_ipv6)
+
 echo " CPU 型号          : $(_blue "$cname")"
 echo " CPU 核心数        : $(_blue "$cores")"
 echo " 内存              : $(_blue "$Result_Systeminfo_Memoryinfo")"
 echo " 硬盘空间          : $(_blue "$Result_Systeminfo_Diskinfo")"
-
-check_ipv4
-check_ipv6
+echo " IPV4          : $(_blue "$IPV4")"
+echo " IPV6          : $(_blue "$IPV6")"
