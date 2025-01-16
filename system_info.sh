@@ -139,6 +139,44 @@ else
     uswap=$(swapinfo -k | awk 'NR>1{sum+=$4} END{printf "%.0f", sum/1024}')
 fi
 
+check_ipv4() {
+    rm -rf /tmp/ip_quality_ipv4
+    IPV4=$(ip -4 addr show | grep global | awk '{print $2}' | cut -d '/' -f1 | head -n 1)
+    local response
+    if is_private_ipv4 "$IPV4"; then # 由于是内网IPV4地址，需要通过API获取外网地址
+        IPV4=""
+        local API_NET=("ipv4.ip.sb" "ipget.net" "ip.ping0.cc" "https://ip4.seeip.org" "https://api.my-ip.io/ip" "https://ipv4.icanhazip.com" "api.ipify.org")
+        for p in "${API_NET[@]}"; do
+            response=$(curl -s4m8 "$p")
+            if [ $? -eq 0 ] && ! echo "$response" | grep -q "error"; then
+                IP_API="$p"
+                IPV4="$response"
+                break
+            fi
+        done
+    fi
+    echo $IPV4 >/tmp/ip_quality_ipv4
+}
+
+check_ipv6() {
+    rm -rf /tmp/ip_quality_ipv6
+    IPV6=$(ip -6 addr show | grep global | awk '{print length, $2}' | sort -nr | head -n 1 | awk '{print $2}' | cut -d '/' -f1)
+    local response
+    if is_private_ipv6 "$IPV6"; then # 由于是内网IPV4地址，需要通过API获取外网地址
+        IPV6=""
+        local API_NET=("ipv6.ip.sb" "https://ipget.net" "ipv6.ping0.cc" "https://api.my-ip.io/ip" "https://ipv6.icanhazip.com")
+        for p in "${API_NET[@]}"; do
+            response=$(curl -sLk6m8 "$p" | tr -d '[:space:]')
+            sleep 1
+            if [ $? -eq 0 ] && ! echo "$response" | grep -q "error"; then
+                IPV6="$response"
+                break
+            fi
+        done
+    fi
+    echo $IPV6 >/tmp/ip_quality_ipv6
+}
+
 BenchAPI_Systeminfo_GetMemoryinfo
 BenchAPI_Systeminfo_GetDiskinfo
 
@@ -146,3 +184,6 @@ echo " CPU 型号          : $(_blue "$cname")"
 echo " CPU 核心数        : $(_blue "$cores")"
 echo " 内存              : $(_blue "$Result_Systeminfo_Memoryinfo")"
 echo " 硬盘空间          : $(_blue "$Result_Systeminfo_Diskinfo")"
+
+check_ipv4
+check_ipv6
