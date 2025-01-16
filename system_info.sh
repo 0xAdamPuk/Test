@@ -139,6 +139,28 @@ else
     uswap=$(swapinfo -k | awk 'NR>1{sum+=$4} END{printf "%.0f", sum/1024}')
 fi
 
+is_private_ipv4() {
+    local ip_address=$1
+    local ip_parts
+    if [[ -z $ip_address ]]; then
+        return 0 # 输入为空
+    fi
+    IFS='.' read -r -a ip_parts <<<"$ip_address"
+    # 检查IP地址是否符合内网IP地址的范围
+    # 去除 回环，RFC 1918，多播，RFC 6598 地址
+    if [[ ${ip_parts[0]} -eq 10 ]] ||
+        [[ ${ip_parts[0]} -eq 172 && ${ip_parts[1]} -ge 16 && ${ip_parts[1]} -le 31 ]] ||
+        [[ ${ip_parts[0]} -eq 192 && ${ip_parts[1]} -eq 168 ]] ||
+        [[ ${ip_parts[0]} -eq 127 ]] ||
+        [[ ${ip_parts[0]} -eq 0 ]] ||
+        [[ ${ip_parts[0]} -eq 100 && ${ip_parts[1]} -ge 64 && ${ip_parts[1]} -le 127 ]] ||
+        [[ ${ip_parts[0]} -ge 224 ]]; then
+        return 0 # 是内网IP地址
+    else
+        return 1 # 不是内网IP地址
+    fi
+}
+
 check_ipv4() {
     rm -rf /tmp/ip_quality_ipv4
     IPV4=$(ip -4 addr show | grep global | awk '{print $2}' | cut -d '/' -f1 | head -n 1)
@@ -156,6 +178,54 @@ check_ipv4() {
         done
     fi
     echo $IPV4 >/tmp/ip_quality_ipv4
+}
+
+is_private_ipv6() {
+    local address=$1
+    local temp="0"
+    # 输入为空
+    if [[ ! -n $address ]]; then
+        temp="1"
+    fi
+    # 输入不含:符号
+    if [[ -n $address && $address != *":"* ]]; then
+        temp="2"
+    fi
+    # 检查IPv6地址是否以fe80开头（链接本地地址）
+    if [[ $address == fe80:* ]]; then
+        temp="3"
+    fi
+    # 检查IPv6地址是否以fc00或fd00开头（唯一本地地址）
+    if [[ $address == fc00:* || $address == fd00:* ]]; then
+        temp="4"
+    fi
+    # 检查IPv6地址是否以2001:db8开头（文档前缀）
+    if [[ $address == 2001:db8* ]]; then
+        temp="5"
+    fi
+    # 检查IPv6地址是否以::1开头（环回地址）
+    if [[ $address == ::1 ]]; then
+        temp="6"
+    fi
+    # 检查IPv6地址是否以::ffff:开头（IPv4映射地址）
+    if [[ $address == ::ffff:* ]]; then
+        temp="7"
+    fi
+    # 检查IPv6地址是否以2002:开头（6to4隧道地址）
+    if [[ $address == 2002:* ]]; then
+        temp="8"
+    fi
+    # 检查IPv6地址是否以2001:开头（Teredo隧道地址）
+    if [[ $address == 2001:* ]]; then
+        temp="9"
+    fi
+    if [ "$temp" -gt 0 ]; then
+        # 非公网情况
+        return 0
+    else
+        # 其他情况为公网地址
+        return 1
+    fi
 }
 
 check_ipv6() {
