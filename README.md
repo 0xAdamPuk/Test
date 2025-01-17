@@ -4,3 +4,6 @@ wget -O vps_inst.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/
 
 ### 系统信息
 wget -O system_info.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/system_info.sh && chmod +x system_info.sh && clear && ./system_info.sh
+
+### 安装Socks5代理
+wget -O install_socks5.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/install_socks5.sh && chmod +x install_socks5.sh && clear && ./install_socks5.sh
