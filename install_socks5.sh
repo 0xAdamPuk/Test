@@ -34,17 +34,28 @@ is_ufw_enabled() {
 install() {
     wget --no-check-certificate https://raw.github.com/Lozy/danted/master/install.sh -O install.sh
 
-    # Generate a random port between 2000 and 9999 that is not in use
-    while true; do
-        port=$(shuf -i 2000-9999 -n 1)
-        if ! is_port_in_use $port; then
-            break
+    # Ask user for port input
+    read -p "请输入端口号（留空使用随机端口）: " user_port
+    
+    if [ -z "$user_port" ]; then
+        # Generate a random port between 2000 and 9999 that is not in use
+        while true; do
+            port=$(shuf -i 2000-9999 -n 1)
+            if ! is_port_in_use $port; then
+                break
+            fi
+        done
+    else
+        port=$user_port
+        if is_port_in_use $port; then
+            echo "端口 $port 已被占用，请选择其他端口。"
+            return
         fi
-    done
+    fi
 
     # Generate random user and password
-    user=$(generate_random_string 7)
-    passwd=$(generate_random_string 14)
+    user=$(generate_random_string 16)
+    passwd=$(generate_random_string 16)
 
     # Execute the install script with generated values
     bash install.sh --port=$port --user=$user --passwd=$passwd
