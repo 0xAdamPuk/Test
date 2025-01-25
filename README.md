@@ -10,3 +10,6 @@ wget -O system_info.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/hea
 
 ### 安装Socks5代理
 wget -O install_socks5.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/install_socks5.sh && chmod +x install_socks5.sh && clear && ./install_socks5.sh
+
+### Xray + Reality 一键脚本
+wget -P /root -N --no-check-certificate https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh && chmod 700 /root/install.sh && /root/install.sh
