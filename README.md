@@ -13,3 +13,6 @@ wget -O install_socks5.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/
 
 ### Vless + Reality 一键脚本
 wget -P /root -N --no-check-certificate https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh && chmod 700 /root/install.sh && /root/install.sh
+
+### SublinkX自制订阅:
+curl -s -H "Cache-Control: no-cache" -H "Pragma: no-cache" https://raw.githubusercontent.com/gooaclok819/sublinkX/main/install.sh | sudo bash
