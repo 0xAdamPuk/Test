@@ -1,5 +1,15 @@
 #!/bin/bash
 
+folder_name="CloudflareST"
+
+# 判断文件夹是否存在
+if [ ! -d "$folder_name" ]; then
+  # 如果文件夹不存在，则创建
+  mkdir "$folder_name"
+fi
+
+cd "$folder_name"
+
 # 获取最新版本信息的URL
 api_url="https://api.github.com/repos/XIU2/CloudflareSpeedTest/releases/latest"
 
