@@ -4,9 +4,12 @@ apt update ; apt -y install wget curl cron
 ### VPS初装一些脚本
 wget -O vps_inst.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/vps_inst.sh && chmod +x vps_inst.sh && clear && ./vps_inst.sh
 
-
 ### 系统信息
 wget -O system_info.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/system_info.sh && chmod +x system_info.sh && clear && ./system_info.sh
+
+### 融合怪
+curl -L https://github.com/spiritLHLS/ecs/raw/main/ecs.sh -o ecs.sh && chmod +x ecs.sh && bash ecs.sh
+bash <(wget -qO- bash.spiritlhl.net/ecs)
 
 ### 安装Socks5代理
 wget -O install_socks5.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/install_socks5.sh && chmod +x install_socks5.sh && clear && ./install_socks5.sh
