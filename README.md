@@ -16,3 +16,6 @@ wget -P /root -N --no-check-certificate https://raw.githubusercontent.com/mack-a
 
 ### SublinkX自制订阅:
 curl -s -H "Cache-Control: no-cache" -H "Pragma: no-cache" https://raw.githubusercontent.com/gooaclok819/sublinkX/main/install.sh | sudo bash
+
+### CloudFlare优选IP
+wget -O install_cloudflarest.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/install_cloudflarest.sh && chmod +x install_cloudflarest.sh && clear && ./install_cloudflarest.sh
