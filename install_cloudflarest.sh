@@ -63,3 +63,15 @@ download_url="${base_url}${file_name}"
 
 # 输出下载URL
 echo "Download URL: $download_url"
+
+# 下载 CloudflareST 压缩包
+wget -N $download_url
+
+# 解压
+tar -zxf $file_name
+
+# 赋予执行权限
+chmod +x CloudflareST
+
+# 运行（不带参数）
+./CloudflareST
