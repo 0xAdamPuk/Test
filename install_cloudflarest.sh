@@ -1,5 +1,31 @@
 #!/bin/bash
 
+# 判断jq是否已经安装
+if ! command -v jq &> /dev/null
+then
+    echo "jq is not installed. Installing jq..."
+    
+    # 检查操作系统类型
+    if [ -f /etc/debian_version ]; then
+        # Debian/Ubuntu 系统
+        sudo apt-get update
+        sudo apt-get install -y jq
+    elif [ -f /etc/redhat-release ]; then
+        # RedHat/CentOS 系统
+        sudo yum install -y jq
+    elif [ -f /etc/arch-release ]; then
+        # Arch 系统
+        sudo pacman -S jq
+    else
+        echo "Unsupported operating system. Please install jq manually."
+        exit 1
+    fi
+    
+    echo "jq has been installed."
+else
+    echo "jq is already installed."
+fi
+
 folder_name="CloudflareST"
 
 # 判断文件夹是否存在
