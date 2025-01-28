@@ -60,10 +60,10 @@ base_url="https://github.com/jeessy2/ddns-go/releases/download/$latest_version/"
 # 根据架构选择对应的文件名
 case $architecture in
     x86_64)
-        file_name="ddns-go_${clean_version}_linux_amd64.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_x86_64.tar.gz"
         ;;
     i386 | i686)
-        file_name="ddns-go_${clean_version}_linux_386.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_i386.tar.gz"
         ;;
     aarch64)
         file_name="ddns-go_${clean_version}_linux_arm64.tar.gz"
@@ -76,18 +76,6 @@ case $architecture in
         ;;
     armv5te)
         file_name="ddns-go_${clean_version}_linux_armv5.tar.gz"
-        ;;
-    mips)
-        file_name="ddns-go_${clean_version}_linux_mips.tar.gz"
-        ;;
-    mips64)
-        file_name="ddns-go_${clean_version}_linux_mips64.tar.gz"
-        ;;
-    mips64le)
-        file_name="ddns-go_${clean_version}_linux_mips64le.tar.gz"
-        ;;
-    mipsel)
-        file_name="ddns-go_${clean_version}_linux_mipsle.tar.gz"
         ;;
     *)
         echo "Unsupported architecture: $architecture"
