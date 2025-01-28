@@ -37,7 +37,7 @@ fi
 cd "$folder_name"
 
 # 获取最新版本信息的URL
-api_url="https://api.github.com/jeessy2/ddns-go/releases/latest"
+api_url="https://api.github.com/repos/jeessy2/ddns-go/releases/latest"
 
 # 使用curl命令获取最新版本信息，并使用jq解析版本号
 latest_version=$(curl -s $api_url | jq -r '.tag_name')
