@@ -50,3 +50,4 @@ curl -fsSL https://get.docker.com | bash -s docker
 ```bash
 docker run -d --name ddns-go --restart=always --net=host -v /opt/ddns-go:/root jeessy/ddns-go
 ```
+#### 安装完,用浏览器访问机器的9876端口进行配置
