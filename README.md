@@ -40,3 +40,13 @@ curl -s -H "Cache-Control: no-cache" -H "Pragma: no-cache" https://raw.githubuse
 ```bash
 wget -O install_cloudflarest.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/install_cloudflarest.sh && chmod +x install_cloudflarest.sh && clear && ./install_cloudflarest.sh
 ```
+
+### ddns-go安装
+#### 若未装docker
+```bash
+curl -fsSL https://get.docker.com | bash -s docker
+```
+#### docker安装之后
+```bash
+docker run -d --name ddns-go --restart=always --net=host -v /opt/ddns-go:/root jeessy/ddns-go
+```
