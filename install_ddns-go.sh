@@ -49,6 +49,7 @@ if [ -z "$latest_version" ]; then
 fi
 
 echo "Latest version: $latest_version"
+clean_version=${latest_version#v}
 
 # 获取系统架构
 architecture=$(uname -m)
@@ -59,34 +60,34 @@ base_url="https://github.com/jeessy2/ddns-go/releases/download/$latest_version/"
 # 根据架构选择对应的文件名
 case $architecture in
     x86_64)
-        file_name="ddns-go_{$latest_version}_linux_amd64.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_amd64.tar.gz"
         ;;
     i386 | i686)
-        file_name="ddns-go_{$latest_version}_linux_386.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_386.tar.gz"
         ;;
     aarch64)
-        file_name="ddns-go_{$latest_version}_linux_arm64.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_arm64.tar.gz"
         ;;
     armv7l)
         file_name="ddns-go_{$latest_version}_linux_armv7.tar.gz"
         ;;
     armv6l)
-        file_name="ddns-go_{$latest_version}_linux_armv6.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_armv6.tar.gz"
         ;;
     armv5te)
-        file_name="ddns-go_{$latest_version}_linux_armv5.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_armv5.tar.gz"
         ;;
     mips)
-        file_name="ddns-go_{$latest_version}_linux_mips.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_mips.tar.gz"
         ;;
     mips64)
-        file_name="ddns-go_{$latest_version}_linux_mips64.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_mips64.tar.gz"
         ;;
     mips64le)
-        file_name="ddns-go_{$latest_version}_linux_mips64le.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_mips64le.tar.gz"
         ;;
     mipsel)
-        file_name="ddns-go_{$latest_version}_linux_mipsle.tar.gz"
+        file_name="ddns-go_${clean_version}_linux_mipsle.tar.gz"
         ;;
     *)
         echo "Unsupported architecture: $architecture"
