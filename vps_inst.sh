@@ -165,7 +165,7 @@ function show_menu() {
     echo "4) 添加SWAP"
     echo "5) 修改SSH端口"
     echo "6) 修改SSH密钥登录"
-    echo "7) "
+    echo "7) 安装Docker&Compose"
     echo "8) 退出"
 }
 
