@@ -106,6 +106,55 @@ function set_ssh_private_key(){
     anykey
 }
 
+function check_dependencies(){
+    # 判断jq是否已经安装
+    if ! command -v jq &> /dev/null
+    then
+        echo "jq is not installed. Installing jq..."
+        
+        # 检查操作系统类型
+        if [ -f /etc/debian_version ]; then
+            # Debian/Ubuntu 系统
+            sudo apt-get update
+            sudo apt-get install -y jq
+        elif [ -f /etc/redhat-release ]; then
+            # RedHat/CentOS 系统
+            sudo yum install -y jq
+        elif [ -f /etc/arch-release ]; then
+            # Arch 系统
+            sudo pacman -S jq
+        else
+            echo "Unsupported operating system. Please install jq manually."
+            exit 1
+        fi
+        
+        echo "jq has been installed."
+    else
+        echo "jq is already installed."
+    fi
+}
+
+function install_docker_and_compose(){
+    curl -fsSL https://get.docker.com | bash -s docker
+    check_dependencies
+    # 获取最新版本信息的URL
+    api_url="https://api.github.com/repos/docker/compose/releases/latest"
+    
+    # 使用curl命令获取最新版本信息，并使用jq解析版本号
+    latest_version=$(curl -s $api_url | jq -r '.tag_name')
+
+    # 检查是否成功获取版本号
+    if [ -z "$latest_version" ]; then
+      echo "Failed to get the latest version."
+      exit 1
+    fi
+    
+    echo "Latest version: $latest_version"
+
+    curl -L "https://github.com/docker/compose/releases/download/${latest_version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+}
+
 # 显示菜单
 function show_menu() {
     clear
@@ -116,7 +165,8 @@ function show_menu() {
     echo "4) 添加SWAP"
     echo "5) 修改SSH端口"
     echo "6) 修改SSH密钥登录"
-    echo "7) 退出"
+    echo "7) "
+    echo "8) 退出"
 }
 
 # 主循环
@@ -143,6 +193,9 @@ while true; do
             set_ssh_private_key
             ;;
         7)
+            install_docker_and_compose
+            ;;
+        8)
             echo "退出脚本."
             exit 0
             ;;
