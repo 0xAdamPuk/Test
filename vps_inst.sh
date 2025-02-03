@@ -134,8 +134,15 @@ function check_dependencies(){
     fi
 }
 
-function install_docker_and_compose(){
-    curl -fsSL https://get.docker.com | bash -s docker
+function install_docker(){
+    curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+    docker -v
+    systemctl enable docker
+    # install_dockercompose
+    anykey
+}
+
+function install_dockercompose(){
     check_dependencies
     # 获取最新版本信息的URL
     api_url="https://api.github.com/repos/docker/compose/releases/latest"
@@ -153,8 +160,6 @@ function install_docker_and_compose(){
 
     curl -L "https://github.com/docker/compose/releases/download/${latest_version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
-
-    anykey
 }
 
 # 显示菜单
@@ -195,7 +200,7 @@ while true; do
             set_ssh_private_key
             ;;
         7)
-            install_docker_and_compose
+            install_docker
             ;;
         8)
             echo "退出脚本."
