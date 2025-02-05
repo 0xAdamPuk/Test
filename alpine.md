@@ -15,3 +15,5 @@ ash install-release.sh
 rc-update add xray
 rc-service xray start
 ```
+
+### 配置文件存在/usr/local/etc/xray这个路径下
