@@ -138,7 +138,15 @@ function install_docker(){
     curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
     docker -v
     systemctl enable docker
-    # install_dockercompose
+    
+    # Edit /etc/docker/daemon.json to add iptables configuration
+    sudo mkdir -p /etc/docker
+    if [ -f /etc/docker/daemon.json ]; then
+        sudo jq '.iptables = false' /etc/docker/daemon.json | sudo tee /etc/docker/daemon.json > /dev/null
+    else
+        echo '{ "iptables": false }' | sudo tee /etc/docker/daemon.json > /dev/null
+    fi
+    
     anykey
 }
 
