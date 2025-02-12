@@ -113,9 +113,9 @@ EOF
 
   # Generate VLESS link and append to the file
   if [[ $IP == *":"* ]]; then
-    echo "vless://$UUID@[$IP]:$PORT?encryption=none&flow=xtls-rprx-vision&security=reality&sni=$SERVER_NAME&fp=chrome&pbk=$PUBLIC_KEY&sid=$SHORT_ID&spx=0#${TAG}_${SHORT_TAG}" >> $LINKS_FILE
+    echo "vless://$UUID@[$IP]:$PORT?encryption=none&flow=xtls-rprx-vision&security=reality&type=tcp&sni=$SERVER_NAME&fp=chrome&pbk=$PUBLIC_KEY&sid=$SHORT_ID&spx=0#${TAG}_${SHORT_TAG}" >> $LINKS_FILE
   else
-    echo "vless://$UUID@$IP:$PORT?encryption=none&flow=xtls-rprx-vision&security=reality&sni=$SERVER_NAME&fp=chrome&pbk=$PUBLIC_KEY&sid=$SHORT_ID&spx=0#${TAG}_${SHORT_TAG}" >> $LINKS_FILE
+    echo "vless://$UUID@$IP:$PORT?encryption=none&flow=xtls-rprx-vision&security=reality&type=tcp&sni=$SERVER_NAME&fp=chrome&pbk=$PUBLIC_KEY&sid=$SHORT_ID&spx=0#${TAG}_${SHORT_TAG}" >> $LINKS_FILE
   fi
 }
 
