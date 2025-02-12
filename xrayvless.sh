@@ -4,11 +4,7 @@
 check_and_install_xray() {
   if ! command -v xray &> /dev/null; then
     echo "Xray not found. Installing Xray..."
-    wget -O xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip
-    unzip xray.zip -d xray
-    sudo mv xray/xray /usr/local/bin/
-    sudo chmod +x /usr/local/bin/xray
-    rm -rf xray.zip xray
+    bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
     echo "Xray installed successfully."
   else
     echo "Xray is already installed."
