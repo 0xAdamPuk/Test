@@ -5,13 +5,15 @@ generate_uuid() {
   cat /proc/sys/kernel/random/uuid
 }
 
-# Function to generate a random port number avoiding common ports
+# Function to generate a random port number avoiding common ports and checking if the port is free
 generate_port() {
   while true; do
     PORT=$((RANDOM % 65535 + 1))
     if [[ $PORT -ne 80 && $PORT -ne 443 && $PORT -gt 1024 ]]; then
-      echo $PORT
-      break
+      if ! lsof -i:$PORT >/dev/null; then
+        echo $PORT
+        break
+      fi
     fi
   done
 }
