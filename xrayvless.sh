@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# Function to check if Xray is installed and install it if not
+check_and_install_xray() {
+  if ! command -v xray &> /dev/null; then
+    echo "Xray not found. Installing Xray..."
+    wget -O xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip
+    unzip xray.zip -d xray
+    sudo mv xray/xray /usr/local/bin/
+    sudo chmod +x /usr/local/bin/xray
+    rm -rf xray.zip xray
+    echo "Xray installed successfully."
+  else
+    echo "Xray is already installed."
+  fi
+}
+
 # Function to generate a random UUID
 generate_uuid() {
   cat /proc/sys/kernel/random/uuid
@@ -201,3 +216,10 @@ echo "UUID: $UUID"
 echo "Server IPs: $SERVER_IPS"
 echo "VLESS links have been saved to $LINKS_FILE"
 cat $LINKS_FILE
+
+# Copy the configuration file to the Xray directory
+sudo mkdir -p /usr/local/etc/xray
+sudo cp config.json /usr/local/etc/xray/config.json
+
+# Start Xray with the generated configuration
+sudo xray -config /usr/local/etc/xray/config.json
