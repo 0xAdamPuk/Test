@@ -145,7 +145,7 @@ for IPV4 in "${IPV4_ADDRESSES[@]}"; do
   cat >> config.json <<EOF
     {
       "protocol": "freedom",
-      "settings": {},
+      "settings": {"domainStrategy":"ForceIPv4"},
       "tag": "ipv4-outbound-$SHORT_TAG"
     },
 EOF
@@ -157,7 +157,7 @@ for IPV6 in "${IPV6_ADDRESSES[@]}"; do
   cat >> config.json <<EOF
     {
       "protocol": "freedom",
-      "settings": {},
+      "settings": {"domainStrategy":"ForceIPv6"},
       "tag": "ipv6-outbound-$SHORT_TAG"
     },
 EOF
