@@ -20,7 +20,7 @@ generate_port() {
 
 # Function to pick a random server name from the list
 generate_server_name() {
-  SERVER_NAMES=("www.bing.com" "www.apple.com" "www.microsoft.com")
+  SERVER_NAMES=("www.bing.com" "www.apple.com" "www.microsoft.com" "gateway.icloud.com" "itunes.apple.com" "swdist.apple.com" "mensura.cdn-apple.com" "aod.itunes.apple.com" "addons.mozilla.org" "s0.awsstatic.com")
   echo "${SERVER_NAMES[$RANDOM % ${#SERVER_NAMES[@]}]}"
 }
 
