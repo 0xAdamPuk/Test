@@ -61,6 +61,9 @@ UUID=$(generate_uuid)
 # Create Xray configuration
 cat > config.json <<EOF
 {
+  "log": {
+    "loglevel": "warning"
+  }
   "inbounds": [
 EOF
 
