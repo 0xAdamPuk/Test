@@ -20,7 +20,10 @@ curl -L https://github.com/spiritLHLS/ecs/raw/main/ecs.sh -o ecs.sh && chmod +x 
 ```bash
 bash <(wget -qO- bash.spiritlhl.net/ecs)
 ```
-
+### IP质量
+```bash
+bash <(curl -Ls IP.Check.Place)
+```
 ### 安装Socks5代理
 ```bash
 wget -O install_socks5.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/install_socks5.sh && chmod +x install_socks5.sh && clear && ./install_socks5.sh
