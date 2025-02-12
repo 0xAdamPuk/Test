@@ -221,4 +221,5 @@ sudo mkdir -p /usr/local/etc/xray
 sudo cp config.json /usr/local/etc/xray/config.json
 
 # Start Xray with the generated configuration
-sudo xray -config /usr/local/etc/xray/config.json
+# sudo xray -config /usr/local/etc/xray/config.json
+systemctl restart xray
