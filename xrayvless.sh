@@ -40,6 +40,8 @@ generate_keys() {
   xray x25519
 }
 
+check_and_install_xray
+
 # Get server IP addresses
 SERVER_IPS=$(hostname -I | tr ' ' '\n' | grep -v '^$')
 
