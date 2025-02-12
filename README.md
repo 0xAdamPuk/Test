@@ -30,6 +30,9 @@ wget -O install_socks5.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/
 ```bash
 wget -P /root -N --no-check-certificate https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh && chmod 700 /root/install.sh && /root/install.sh
 ```
+```bash
+wget -O xrayvless.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/xrayvless.sh && chmod +x xrayvless.sh && clear && ./xrayvless.sh
+```
 
 ### SublinkX自制订阅:
 ```bash
