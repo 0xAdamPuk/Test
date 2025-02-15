@@ -65,7 +65,7 @@ cat > config.json <<EOF
 {
   "log": {
     "loglevel": "warning"
-  }
+  },
   "inbounds": [
 EOF
 
