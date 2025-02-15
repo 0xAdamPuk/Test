@@ -64,9 +64,9 @@ EOF
 public_ip=$(curl -s4 ifconfig.co)
 
 # 生成SS链接
-ss_uri="aes-256-gcm:$password@$public_ip:$port"
+ss_uri="aes-256-gcm:$password"
 base64_uri=$(echo -n $ss_uri | base64 -w0)
-ss_link="ss://$base64_uri"
+ss_link="ss://$base64_uri@$public_ip:$port"
 
 # 显示配置信息
 echo "================================"
