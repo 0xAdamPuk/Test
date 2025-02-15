@@ -37,6 +37,11 @@ wget -P /root -N --no-check-certificate https://raw.githubusercontent.com/mack-a
 wget -O xrayvless.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/xrayvless.sh && chmod +x xrayvless.sh && clear && ./xrayvless.sh
 ```
 
+### Alpine上安装Shadowsocks一键脚本
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/alpiness.sh)
+```
+
 ### SublinkX自制订阅:
 ```bash
 curl -s -H "Cache-Control: no-cache" -H "Pragma: no-cache" https://raw.githubusercontent.com/gooaclok819/sublinkX/main/install.sh | sudo bash
