@@ -31,7 +31,7 @@ generate_port() {
 
 # Function to pick a random server name from the list
 generate_server_name() {
-  SERVER_NAMES=("www.bing.com" "www.apple.com" "www.microsoft.com" "gateway.icloud.com" "itunes.apple.com" "swdist.apple.com" "mensura.cdn-apple.com" "aod.itunes.apple.com" "addons.mozilla.org" "s0.awsstatic.com")
+  SERVER_NAMES=("www.bing.com" "www.apple.com" "www.microsoft.com" "gateway.icloud.com" "itunes.apple.com" "swdist.apple.com" "mensura.cdn-apple.com" "aod.itunes.apple.com" "addons.mozilla.org")
   echo "${SERVER_NAMES[$RANDOM % ${#SERVER_NAMES[@]}]}"
 }
 
@@ -122,18 +122,25 @@ EOF
   else
     echo "vless://$UUID@$IP:$PORT?encryption=none&flow=xtls-rprx-vision&security=reality&type=tcp&sni=$SERVER_NAME&fp=chrome&pbk=$PUBLIC_KEY&sid=$SHORT_ID&spx=0#${TAG}_${SHORT_TAG}" >> $LINKS_FILE
   fi
+
+  # Return the generated tag
+  echo "$TAG-$PORT"
 }
 
 # Add IPv4 inbounds
+declare -A IPV4_TAGS
 for IPV4 in "${IPV4_ADDRESSES[@]}"; do
   SHORT_TAG=$(echo "$IPV4" | tr -d '.')
-  generate_inbound $IPV4 "ipv4-inbound" "$SHORT_TAG"
+  TAG=$(generate_inbound $IPV4 "ipv4-inbound" "$SHORT_TAG")
+  IPV4_TAGS[$SHORT_TAG]=$TAG
 done
 
 # Add IPv6 inbounds
+declare -A IPV6_TAGS
 for IPV6 in "${IPV6_ADDRESSES[@]}"; do
   SHORT_TAG=$(echo "$IPV6" | tr -d ':' | head -c 8)
-  generate_inbound $IPV6 "ipv6-inbound" "$SHORT_TAG"
+  TAG=$(generate_inbound $IPV6 "ipv6-inbound" "$SHORT_TAG")
+  IPV6_TAGS[$SHORT_TAG]=$TAG
 done
 
 # Remove the last comma from the inbounds section
@@ -158,7 +165,7 @@ done
 
 # Add IPv6 outbounds
 for IPV6 in "${IPV6_ADDRESSES[@]}"; do
-  SHORT_TAG=$(echo "$IPV6" | tr -d ':' | head -c 8)
+  SHORT_TAG=$(echo "$IPV6" | tr -dc ':' | head -c 8)
   cat >> config.json <<EOF
     {
       "protocol": "freedom",
@@ -180,11 +187,11 @@ EOF
 # Add routing rules for IPv4
 for IPV4 in "${IPV4_ADDRESSES[@]}"; do
   SHORT_TAG=$(echo "$IPV4" | tr -d '.')
-  PORT=$(generate_port)
+  TAG=${IPV4_TAGS[$SHORT_TAG]}
   cat >> config.json <<EOF
       {
         "type": "field",
-        "inboundTag": ["ipv4-inbound-$PORT"],
+        "inboundTag": ["$TAG"],
         "outboundTag": "ipv4-outbound-$SHORT_TAG"
       },
 EOF
@@ -193,11 +200,11 @@ done
 # Add routing rules for IPv6
 for IPV6 in "${IPV6_ADDRESSES[@]}"; do
   SHORT_TAG=$(echo "$IPV6" | tr -d ':' | head -c 8)
-  PORT=$(generate_port)
+  TAG=${IPV6_TAGS[$SHORT_TAG]}
   cat >> config.json <<EOF
       {
         "type": "field",
-        "inboundTag": ["ipv6-inbound-$PORT"],
+        "inboundTag": ["$TAG"],
         "outboundTag": "ipv6-outbound-$SHORT_TAG"
       },
 EOF
