@@ -57,9 +57,6 @@ for IP in $SERVER_IPS; do
   fi
 done
 
-# Generate random UUID
-UUID=$(generate_uuid)
-
 # Create Xray configuration
 cat > config.json <<EOF
 {
@@ -84,6 +81,7 @@ generate_vless_inbound() {
   local PUBLIC_KEY=$(echo "$KEYS" | grep 'Public' | awk '{print $3}')
   local PRIVATE_KEY=$(echo "$KEYS" | grep 'Private' | awk '{print $3}')
   local SHORT_ID=$(head /dev/urandom | tr -dc a-f0-9 | head -c 8)
+  local UUID=$(generate_uuid)
 
   cat >> config.json <<EOF
     {
@@ -260,9 +258,8 @@ cat >> config.json <<EOF
 EOF
 
 echo "Xray configuration generated successfully!"
-echo "UUID: $UUID"
 echo "Server IPs: $SERVER_IPS"
-echo "VLESS links have been saved to $LINKS_FILE"
+echo "VLESS and Shadowsocks links have been saved to $LINKS_FILE"
 cat $LINKS_FILE
 
 # Copy the configuration file to the Xray directory
