@@ -42,8 +42,8 @@ generate_keys() {
 
 check_and_install_xray
 
-# Get server IP addresses
-SERVER_IPS=$(hostname -I | tr ' ' '\n' | grep -v '^$')
+# Get server IP addresses and filter out Docker IP addresses
+SERVER_IPS=$(hostname -I | tr ' ' '\n' | grep -v '^$' | grep -vE '172\.17\..*|172\.18\..*|172\.19\..*|172\.20\..*|172\.21\..*|172\.22\..*|172\.23\..*|172\.24\..*|172\.25\..*|172\.26\..*|172\.27\..*|172\.28\..*|172\.29\..*|172\.30\..*|172\.31\..*')
 
 # Separate IPv4 and IPv6 addresses
 IPV4_ADDRESSES=()
