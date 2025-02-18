@@ -73,8 +73,8 @@ EOF
 LINKS_FILE="vless_links.txt"
 > $LINKS_FILE
 
-# Function to generate inbound configuration
-generate_inbound() {
+# Function to generate inbound configuration for VLESS
+generate_vless_inbound() {
   local IP=$1
   local TAG=$2
   local SHORT_TAG=$3
@@ -127,20 +127,56 @@ EOF
   echo "$TAG-$PORT"
 }
 
-# Add IPv4 inbounds
+# Function to generate inbound configuration for Shadowsocks
+generate_shadowsocks_inbound() {
+  local IP=$1
+  local TAG=$2
+  local SHORT_TAG=$3
+  local PORT=$(generate_port)
+  local PASSWORD=$(generate_uuid)
+  local METHOD="aes-256-gcm"
+
+  cat >> config.json <<EOF
+    {
+      "port": $PORT,
+      "protocol": "shadowsocks",
+      "settings": {
+        "method": "$METHOD",
+        "password": "$PASSWORD",
+        "network": "tcp,udp",
+        "level": 0
+      },
+      "tag": "$TAG-$PORT"
+    },
+EOF
+
+  # Generate Shadowsocks link and append to the file
+  if [[ $IP == *":"* ]]; then
+    echo "ss://$(echo -n "$METHOD:$PASSWORD" | base64)@[$IP]:$PORT#${TAG}_${SHORT_TAG}" >> $LINKS_FILE
+  else
+    echo "ss://$(echo -n "$METHOD:$PASSWORD" | base64)@$IP:$PORT#${TAG}_${SHORT_TAG}" >> $LINKS_FILE
+  fi
+
+  # Return the generated tag
+  echo "$TAG-$PORT"
+}
+
+# Add IPv4 inbounds for VLESS and Shadowsocks
 declare -A IPV4_TAGS
 for IPV4 in "${IPV4_ADDRESSES[@]}"; do
   SHORT_TAG=$(echo "$IPV4" | tr -d '.')
-  TAG=$(generate_inbound $IPV4 "ipv4-inbound" "$SHORT_TAG")
-  IPV4_TAGS[$SHORT_TAG]=$TAG
+  VLESS_TAG=$(generate_vless_inbound $IPV4 "ipv4-vless-inbound" "$SHORT_TAG")
+  SS_TAG=$(generate_shadowsocks_inbound $IPV4 "ipv4-ss-inbound" "$SHORT_TAG")
+  IPV4_TAGS[$SHORT_TAG]="$VLESS_TAG $SS_TAG"
 done
 
-# Add IPv6 inbounds
+# Add IPv6 inbounds for VLESS and Shadowsocks
 declare -A IPV6_TAGS
 for IPV6 in "${IPV6_ADDRESSES[@]}"; do
   SHORT_TAG=$(echo "$IPV6" | tr -d ':' | head -c 8)
-  TAG=$(generate_inbound $IPV6 "ipv6-inbound" "$SHORT_TAG")
-  IPV6_TAGS[$SHORT_TAG]=$TAG
+  VLESS_TAG=$(generate_vless_inbound $IPV6 "ipv6-vless-inbound" "$SHORT_TAG")
+  SS_TAG=$(generate_shadowsocks_inbound $IPV6 "ipv6-ss-inbound" "$SHORT_TAG")
+  IPV6_TAGS[$SHORT_TAG]="$VLESS_TAG $SS_TAG"
 done
 
 # Remove the last comma from the inbounds section
@@ -187,27 +223,31 @@ EOF
 # Add routing rules for IPv4
 for IPV4 in "${IPV4_ADDRESSES[@]}"; do
   SHORT_TAG=$(echo "$IPV4" | tr -d '.')
-  TAG=${IPV4_TAGS[$SHORT_TAG]}
-  cat >> config.json <<EOF
+  TAGS=${IPV4_TAGS[$SHORT_TAG]}
+  for TAG in $TAGS; do
+    cat >> config.json <<EOF
       {
         "type": "field",
         "inboundTag": ["$TAG"],
         "outboundTag": "ipv4-outbound-$SHORT_TAG"
       },
 EOF
+  done
 done
 
 # Add routing rules for IPv6
 for IPV6 in "${IPV6_ADDRESSES[@]}"; do
   SHORT_TAG=$(echo "$IPV6" | tr -d ':' | head -c 8)
-  TAG=${IPV6_TAGS[$SHORT_TAG]}
-  cat >> config.json <<EOF
+  TAGS=${IPV6_TAGS[$SHORT_TAG]}
+  for TAG in $TAGS; do
+    cat >> config.json <<EOF
       {
         "type": "field",
         "inboundTag": ["$TAG"],
         "outboundTag": "ipv6-outbound-$SHORT_TAG"
       },
 EOF
+  done
 done
 
 # Remove the last comma from the routing rules section
