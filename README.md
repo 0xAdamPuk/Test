@@ -1,6 +1,6 @@
 ### 若未安装wget之类,执行
 ```bash
-apt update ; apt -y install wget curl ufw
+apt update ; apt -y install wget curl ufw lsof
 ```
 
 ### VPS初装一些脚本
