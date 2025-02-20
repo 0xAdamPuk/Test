@@ -10,7 +10,7 @@ function upgrade_softwares() {
     apt update -y && apt upgrade -y
 
     # 更新、安装必备软件
-    apt install sudo curl wget nano
+    apt install sudo curl wget nano ufw
     anykey
 }
 
