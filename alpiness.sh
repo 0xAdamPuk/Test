@@ -78,8 +78,8 @@ echo "加密方式: aes-256-gcm"
 echo "SS链接: $ss_link"
 echo "================================"
 
-# 启动服务
-rc-update add xray
+# 启动服务 default为开机自启动
+rc-update add xray default
 rc-service xray restart
 
 echo "安装完成！请使用上述SS链接连接"
