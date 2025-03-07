@@ -47,6 +47,11 @@ bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 ```
 
+### 简单Gost脚本
+```bash
+wget --no-check-certificate -O gost.sh https://raw.githubusercontent.com/KANIKIG/Multi-EasyGost/master/gost.sh && chmod +x gost.sh && ./gost.sh
+```
+
 ### SublinkX自制订阅:
 ```bash
 curl -s -H "Cache-Control: no-cache" -H "Pragma: no-cache" https://raw.githubusercontent.com/gooaclok819/sublinkX/main/install.sh | sudo bash
