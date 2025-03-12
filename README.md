@@ -26,6 +26,9 @@ bash <(wget -qO- bash.spiritlhl.net/ecs)
 ```bash
 bash <(curl -Ls IP.Check.Place)
 ```
+```bash
+bash <(curl -sL Net.Check.Place)
+```
 
 ### 三网测速
 ```bash
