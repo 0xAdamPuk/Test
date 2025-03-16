@@ -1,3 +1,8 @@
+### 查看系统版本
+```bash
+cat /etc/os-release
+```
+
 ### 若未安装wget之类,执行
 ```bash
 apt update ; apt -y install wget curl ufw lsof
