@@ -89,4 +89,7 @@ docker run -d --name ddns-go --restart=always --net=host -v /opt/ddns-go:/root j
 ```bash
 wget -O setup_ddns-go.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/setup_ddns-go.sh && chmod +x setup_ddns-go.sh && clear && ./setup_ddns-go.sh
 ```
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/setup_ddns-go.sh)
+```
 #### 安装完,用浏览器访问机器的9876端口进行配置
