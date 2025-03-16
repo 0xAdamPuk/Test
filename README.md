@@ -47,6 +47,9 @@ wget -P /root -N --no-check-certificate https://raw.githubusercontent.com/mack-a
 ```bash
 wget -O xrayvless.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/xrayvless.sh && chmod +x xrayvless.sh && clear && ./xrayvless.sh
 ```
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/xrayvless.sh)
+```
 
 ### Alpine上安装Shadowsocks一键脚本
 ```bash
