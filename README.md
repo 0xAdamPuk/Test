@@ -12,6 +12,9 @@ apt update ; apt -y install wget curl ufw lsof
 ```bash
 wget -O vps_inst.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/vps_inst.sh && chmod +x vps_inst.sh && clear && ./vps_inst.sh
 ```
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/vps_inst.sh)
+```
 
 ### 系统信息
 ```bash
