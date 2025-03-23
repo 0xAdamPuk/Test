@@ -421,6 +421,7 @@ check_ipv6() {
 
 BenchAPI_Systeminfo_GetMemoryinfo
 BenchAPI_Systeminfo_GetDiskinfo
+BenchAPI_Systeminfo_GetVMMinfo
 
 check_ipv4
 check_ipv6
