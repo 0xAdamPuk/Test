@@ -20,6 +20,9 @@ bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main
 ```bash
 wget -O system_info.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/system_info.sh && chmod +x system_info.sh && clear && ./system_info.sh
 ```
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/system_info.sh)
+```
 
 ### 融合怪
 ```bash
