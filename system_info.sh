@@ -100,6 +100,158 @@ function BenchAPI_Systeminfo_GetDiskinfo() {
     fi
 }
 
+#
+# -> 系统信息模块 (Collector) -> 获取虚拟化信息
+function BenchAPI_Systeminfo_GetVMMinfo() {
+    if [ -f "/usr/bin/systemd-detect-virt" ]; then
+        local r_vmmtype && r_vmmtype="$(/usr/bin/systemd-detect-virt 2>/dev/null)"
+        case "${r_vmmtype}" in
+        kvm)
+            Result_Systeminfo_VMMType="KVM"
+            Result_Systeminfo_VMMTypeShort="kvm"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        xen)
+            Result_Systeminfo_VMMType="Xen Hypervisor"
+            Result_Systeminfo_VMMTypeShort="xen"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        microsoft)
+            Result_Systeminfo_VMMType="Microsoft Hyper-V"
+            Result_Systeminfo_VMMTypeShort="microsoft"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        vmware)
+            Result_Systeminfo_VMMType="VMware"
+            Result_Systeminfo_VMMTypeShort="vmware"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        oracle)
+            Result_Systeminfo_VMMType="Oracle VirtualBox"
+            Result_Systeminfo_VMMTypeShort="oracle"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        parallels)
+            Result_Systeminfo_VMMType="Parallels"
+            Result_Systeminfo_VMMTypeShort="parallels"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        qemu)
+            Result_Systeminfo_VMMType="QEMU"
+            Result_Systeminfo_VMMTypeShort="qemu"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        amazon)
+            Result_Systeminfo_VMMType="Amazon Virtualization"
+            Result_Systeminfo_VMMTypeShort="amazon"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        docker)
+            Result_Systeminfo_VMMType="Docker"
+            Result_Systeminfo_VMMTypeShort="docker"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        openvz)
+            Result_Systeminfo_VMMType="OpenVZ (Virutozzo)"
+            Result_Systeminfo_VMMTypeShort="openvz"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        lxc)
+            Result_Systeminfo_VMMTypeShort="lxc"
+            Result_Systeminfo_VMMType="LXC"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        lxc-libvirt)
+            Result_Systeminfo_VMMType="LXC (Based on libvirt)"
+            Result_Systeminfo_VMMTypeShort="lxc-libvirt"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        uml)
+            Result_Systeminfo_VMMType="User-mode Linux"
+            Result_Systeminfo_VMMTypeShort="uml"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        systemd-nspawn)
+            Result_Systeminfo_VMMType="Systemd nspawn"
+            Result_Systeminfo_VMMTypeShort="systemd-nspawn"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        bochs)
+            Result_Systeminfo_VMMType="BOCHS"
+            Result_Systeminfo_VMMTypeShort="bochs"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        rkt)
+            Result_Systeminfo_VMMType="RKT"
+            Result_Systeminfo_VMMTypeShort="rkt"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        zvm)
+            Result_Systeminfo_VMMType="S390 Z/VM"
+            Result_Systeminfo_VMMTypeShort="zvm"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+            ;;
+        none)
+            Result_Systeminfo_VMMType="Dedicated"
+            Result_Systeminfo_VMMTypeShort="none"
+            Result_Systeminfo_isPhysical="1"
+            if test -f "/sys/class/iommu/dmar0/uevent"; then
+                Result_Systeminfo_IOMMU="1"
+            else
+                Result_Systeminfo_IOMMU="0"
+            fi
+            return 0
+            ;;
+        *)
+            echo -e "${Msg_Error} BenchAPI_Systeminfo_GetVirtinfo(): invalid result (${r_vmmtype}), please check parameter!"
+            ;;
+        esac
+    fi
+    if [ -f "/.dockerenv" ]; then
+        Result_Systeminfo_VMMType="Docker"
+        Result_Systeminfo_VMMTypeShort="docker"
+        Result_Systeminfo_isPhysical="0"
+        return 0
+    elif [ -c "/dev/lxss" ]; then
+        Result_Systeminfo_VMMType="Windows Subsystem for Linux"
+        Result_Systeminfo_VMMTypeShort="wsl"
+        Result_Systeminfo_isPhysical="0"
+        return 0
+    else
+        if [ -f "/proc/1/cgroup" ] && grep -q "docker" /proc/1/cgroup 2>/dev/null; then
+            Result_Systeminfo_VMMType="Docker"
+            Result_Systeminfo_VMMTypeShort="docker"
+            Result_Systeminfo_isPhysical="0"
+            return 0
+        fi
+        Result_Systeminfo_VMMType="Dedicated"
+        Result_Systeminfo_VMMTypeShort="none"
+        if test -f "/sys/class/iommu/dmar0/uevent"; then
+            Result_Systeminfo_IOMMU="1"
+        else
+            Result_Systeminfo_IOMMU="0"
+        fi
+        return 0
+    fi
+}
+
 disk_size1=($(LC_ALL=C df -hPl | grep -wvE '\-|none|tmpfs|devtmpfs|by-uuid|chroot|Filesystem|udev|docker|snapd' | awk '{print $2}'))
 disk_size2=($(LC_ALL=C df -hPl | grep -wvE '\-|none|tmpfs|devtmpfs|by-uuid|chroot|Filesystem|udev|docker|snapd' | awk '{print $3}'))
 disk_total_size=$(calc_disk "${disk_size1[@]}")
@@ -281,3 +433,4 @@ echo " 内存              : $(_blue "$Result_Systeminfo_Memoryinfo")"
 echo " 硬盘空间          : $(_blue "$Result_Systeminfo_Diskinfo")"
 echo " IPV4          : $(_blue "$IPV4")"
 echo " IPV6          : $(_blue "$IPV6")"
+echo " 虚拟化架构        : $(_blue "$Result_Systeminfo_VMMType")"
