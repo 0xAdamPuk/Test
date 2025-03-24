@@ -40,6 +40,9 @@ bash <(curl -Ls IP.Check.Place)
 ```bash
 bash <(curl -sL Net.Check.Place)
 ```
+```bash
+bash <(curl -sL https://run.NodeQuality.com)
+```
 
 ### 三网测速
 ```bash
