@@ -1,3 +1,8 @@
+### NodeSeek脚本
+```bash
+bash <(curl -sL https://sh.nodeseek.com)
+```
+
 ### 查看系统版本
 ```bash
 cat /etc/os-release
