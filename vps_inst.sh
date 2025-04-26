@@ -170,6 +170,27 @@ function install_dockercompose(){
     chmod +x /usr/local/bin/docker-compose
 }
 
+function install_nodejs() {
+    # https://nodejs.org/zh-cn/download
+    # Download and install nvm:
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    
+    # in lieu of restarting the shell
+    \. "$HOME/.nvm/nvm.sh"
+    
+    # Download and install Node.js:
+    nvm install 22
+    
+    # Verify the Node.js version:
+    node -v # Should print "v22.15.0".
+    nvm current # Should print "v22.15.0".
+    
+    # Verify npm version:
+    npm -v # Should print "10.9.2".
+
+    anykey
+}
+
 # 显示菜单
 function show_menu() {
     clear
@@ -181,7 +202,8 @@ function show_menu() {
     echo "5) 修改SSH端口"
     echo "6) 修改SSH密钥登录"
     echo "7) 安装Docker&Compose"
-    echo "8) 退出"
+    echo "8) 安装Node.js"
+    echo "9) 退出"
 }
 
 # 主循环
@@ -211,6 +233,9 @@ while true; do
             install_docker
             ;;
         8)
+            install_nodejs
+            ;;
+        9)
             echo "退出脚本."
             exit 0
             ;;
