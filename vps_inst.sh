@@ -92,10 +92,28 @@ function generate_port() {
 
 function change_ssh_port() {
     check_nettools
-    local port
-    port=$(generate_port)
-    sudo sed -i "s/^#\?Port 22.*/Port $port/g" /etc/ssh/sshd_config
-    echo "SSH端口号改为: $port"
+    local port input
+    while true; do
+        read -p "请输入新的SSH端口号（直接回车则随机生成）: " input
+        if [[ -z "$input" ]]; then
+            port=$(generate_port)
+            echo "随机生成的端口号为: $port"
+        elif [[ "$input" =~ ^[0-9]+$ ]] && [ "$input" -ge 1024 ] && [ "$input" -le 65535 ]; then
+            check_port $input
+            if [ $? -eq 0 ]; then
+                port=$input
+            else
+                echo "端口 $input 已被占用，请重新输入或直接回车随机生成。"
+                continue
+            fi
+        else
+            echo "请输入1024-65535之间的有效端口号，或回车随机生成。"
+            continue
+        fi
+        break
+    done
+    sudo sed -i "s/^#\?Port .*/Port $port/g" /etc/ssh/sshd_config
+    echo "SSH端口号已改为: $port"
     echo "执行sudo systemctl restart sshd重启sshd服务"
     anykey
 }
