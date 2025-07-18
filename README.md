@@ -117,3 +117,8 @@ wget -O setup_ddns-go.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/h
 bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/setup_ddns-go.sh)
 ```
 #### 安装完,用浏览器访问机器的9876端口进行配置
+
+### 安装Seedbox
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/seedbox.sh)
+```
