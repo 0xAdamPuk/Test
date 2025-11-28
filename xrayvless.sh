@@ -78,8 +78,8 @@ generate_vless_inbound() {
   local PORT=$(generate_port)
   local SERVER_NAME=$(generate_server_name)
   local KEYS=$(generate_keys)
-  local PUBLIC_KEY=$(echo "$KEYS" | grep 'Public' | awk '{print $3}')
-  local PRIVATE_KEY=$(echo "$KEYS" | grep 'Private' | awk '{print $3}')
+  local PUBLIC_KEY=$(echo "$KEYS" | grep 'Password' | awk '{print $2}')
+  local PRIVATE_KEY=$(echo "$KEYS" | grep 'PrivateKey' | awk '{print $2}')
   local SHORT_ID=$(head /dev/urandom | tr -dc a-f0-9 | head -c 8)
   local UUID=$(generate_uuid)
 
