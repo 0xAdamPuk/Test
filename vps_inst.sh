@@ -32,6 +32,10 @@ function check_bbr() {
     anykey
 }
 
+function tcp_window() {
+    wget https://raw.githubusercontent.com/yeahwu/v2ray-wss/main/tcp-window.sh && bash tcp-window.sh
+}
+
 function add_swap() {
     wget -O swap.sh https://raw.githubusercontent.com/yuju520/Script/main/swap.sh && chmod +x swap.sh && clear && ./swap.sh
     echo "执行free -m查看内存"
@@ -236,7 +240,7 @@ while true; do
             set_timezone
             ;;
         3)
-            set_bbr
+            tcp_window
             ;;
         4)
             add_swap
