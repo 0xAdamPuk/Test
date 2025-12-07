@@ -122,3 +122,8 @@ bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/seedbox.sh)
 ```
+
+### 安装Dust
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/install_dust.sh)
+```
