@@ -4,7 +4,7 @@
 apk add curl -q
 
 # 下载并安装Xray
-curl -sO https://raw.githubusercontent.com/XTLS/alpinelinux-install-xray/main/install-release.sh
+curl -sO https://raw.githubusercontent.com/XTLS/Xray-install/refs/heads/main/alpinelinux/install-release.sh
 ash install-release.sh
 
 # 生成随机端口函数
