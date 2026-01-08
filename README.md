@@ -127,3 +127,10 @@ bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/install_dust.sh)
 ```
+### 异常检测
+```bash
+wget -O vps_inst.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/check_sys.sh && chmod +x check_sys.sh && clear && ./check_sys.sh
+```
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/check_sys.sh)
+```
