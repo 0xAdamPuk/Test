@@ -138,5 +138,8 @@ bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main
 
 ### 随机端口生成
 ```bash
+wget -O find_available_port.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/find_available_port.sh && chmod +x find_available_port.sh && clear && ./find_available_port.sh
+```
+```bash
 bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/find_available_port.sh)
 ```
