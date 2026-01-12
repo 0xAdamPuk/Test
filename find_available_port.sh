@@ -35,7 +35,7 @@ while true; do
 
     echo "尝试端口: $RANDOM_PORT"
 
-    if ! is_port_in_USE "$RANDOM_PORT"; then
+    if ! is_port_in_use "$RANDOM_PORT"; then
         FOUND_PORT="$RANDOM_PORT"
         break # 找到可用端口，退出循环
     fi
