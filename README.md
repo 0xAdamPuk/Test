@@ -53,6 +53,11 @@ bash <(curl -sL https://run.NodeQuality.com)
 ```bash
 bash <(curl -sL https://raw.githubusercontent.com/i-abc/Speedtest/main/speedtest.sh)
 ```
+### Speedtest CLI
+```bash
+curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
+sudo apt-get install speedtest
+```
 
 ### 解锁情况
 ```bash
