@@ -148,3 +148,8 @@ wget -O find_available_port.sh https://raw.githubusercontent.com/0xAdamPuk/Test/
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/find_available_port.sh)
 ```
+
+### 创建自启动service
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/create_service.sh)
+```
