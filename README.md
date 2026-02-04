@@ -158,3 +158,8 @@ bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/create_service.sh)
 ```
+
+### 删除komari_agent service
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/stop_komari_agent.sh)
+```
