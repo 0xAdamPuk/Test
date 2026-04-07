@@ -68,6 +68,9 @@ curl https://raw.githubusercontent.com/zhanghanyun/backtrace/main/install.sh -sS
 ```bash
 bash <(curl -L -s https://raw.githubusercontent.com/lmc999/RegionRestrictionCheck/main/check.sh)
 ```
+```bash
+bash <(curl -L -s check.unlock.media)
+```
 
 ### 安装Socks5代理
 ```bash
