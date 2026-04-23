@@ -123,7 +123,7 @@ function change_ssh_port() {
 }
 
 function set_ssh_private_key(){
-    wget -O key.sh https://raw.githubusercontent.com/yuju520/Script/main/key.sh && chmod +x key.sh && clear && ./key.sh
+    wget -O key.sh https://raw.githubusercontent.com/0xAdamPuk/Test/refs/heads/main/key.sh && chmod +x key.sh && clear && ./key.sh
     echo "！！！注意：请牢记你生成的密钥，否则会有无法连接SSH的后果。！！！"
     anykey
 }
